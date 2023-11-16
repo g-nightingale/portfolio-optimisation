@@ -68,7 +68,7 @@ def get_data_for_template(tickers,
 
 # Route for serving the dashboard
 # http://127.0.0.1:5000/
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/portfolio-optimisation', methods=['GET', 'POST'])
 def dashboard():
 
     if request.method == 'POST':
