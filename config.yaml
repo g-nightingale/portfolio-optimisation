@@ -1,0 +1,21 @@
+portfolio_optimisation:
+  tickers: 
+    - FNZ.NZ
+    - DIV.NZ
+    - MDZ.NZ
+    - EMF.NZ
+    - USF.NZ
+    - APA.NZ
+    - EUF.NZ
+  years_history: 10
+  risk_free_rate: 0.0
+  num_portfolios: 2500
+  base_value: 100
+  include_dividends_in_returns: True
+  start_date: '2013-01-01'
+  use_prev_year: True
+
+app:
+  host: '0.0.0.0'
+  port: 80
+  debug: True

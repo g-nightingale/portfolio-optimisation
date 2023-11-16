@@ -1,0 +1,3 @@
+Build: `docker build -t portfolio-optimisation .`  
+Run: `docker run -p 4000:80 portfolio-optimisation`  
+View webapp: `http://localhost:4000/`
