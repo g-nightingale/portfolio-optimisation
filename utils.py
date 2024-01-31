@@ -201,38 +201,39 @@ def backtest_portfolio_optimisation(tickers,
         daily_returns_ = daily_returns[(daily_returns.index>= start_date) & (daily_returns.index <= end_date)]
         daily_dividend_yields_ = daily_dividend_yields[(daily_dividend_yields.index>= start_date) & (daily_dividend_yields.index <= end_date)]
 
-        if use_prev_year:
-            results_df = generate_portfolios(daily_returns_, 
-                                            daily_dividend_yields_, 
-                                            risk_free_rate=risk_free_rate,
-                                            num_portfolios=num_portfolios,
-                                            include_dividends_in_returns=include_dividends_in_returns
-                                            )
-        else:
-            daily_returns_cum = daily_returns[daily_returns.index <= end_date]
-            daily_dividend_yields_cum = daily_dividend_yields[daily_dividend_yields.index <= end_date]
-            results_df = generate_portfolios(daily_returns_cum, 
-                                daily_dividend_yields_cum, 
-                                risk_free_rate=risk_free_rate,
-                                num_portfolios=num_portfolios,
-                                include_dividends_in_returns=include_dividends_in_returns
-                                )    
-            
-        max_sharpe_port, min_vol_port = get_optimal_portfolios(results_df)
+        if daily_returns_.shape[0] > 0:
+            if use_prev_year:
+                results_df = generate_portfolios(daily_returns_, 
+                                                daily_dividend_yields_, 
+                                                risk_free_rate=risk_free_rate,
+                                                num_portfolios=num_portfolios,
+                                                include_dividends_in_returns=include_dividends_in_returns
+                                                )
+            else:
+                daily_returns_cum = daily_returns[daily_returns.index <= end_date]
+                daily_dividend_yields_cum = daily_dividend_yields[daily_dividend_yields.index <= end_date]
+                results_df = generate_portfolios(daily_returns_cum, 
+                                    daily_dividend_yields_cum, 
+                                    risk_free_rate=risk_free_rate,
+                                    num_portfolios=num_portfolios,
+                                    include_dividends_in_returns=include_dividends_in_returns
+                                    )    
+                
+            max_sharpe_port, min_vol_port = get_optimal_portfolios(results_df)
 
-        if counter > 0:
-            max_sharpe_weighted_daily_returns = list(np.sum(daily_returns_.values * max_sharpe_weights, axis=1))
-            min_vol_weighted_daily_returns = list(np.sum(daily_returns_.values * min_vol_weights, axis=1))
-            max_sharpe_returns.extend(max_sharpe_weighted_daily_returns)
-            min_vol_returns.extend(min_vol_weighted_daily_returns)
+            if counter > 0:
+                max_sharpe_weighted_daily_returns = list(np.sum(daily_returns_.values * max_sharpe_weights, axis=1))
+                min_vol_weighted_daily_returns = list(np.sum(daily_returns_.values * min_vol_weights, axis=1))
+                max_sharpe_returns.extend(max_sharpe_weighted_daily_returns)
+                min_vol_returns.extend(min_vol_weighted_daily_returns)
 
-            max_sharpe_weights_dict['date'].append(start_date)
-            for x in tickers:
-                max_sharpe_weights_dict[re.split(r'[._]', x)[0]].append(max_sharpe_port[x + '_weight'])
+                max_sharpe_weights_dict['date'].append(start_date)
+                for x in tickers:
+                    max_sharpe_weights_dict[re.split(r'[._]', x)[0]].append(max_sharpe_port[x + '_weight'])
 
-        # Update weights
-        max_sharpe_weights = max_sharpe_port[[x + '_weight' for x in tickers]].values
-        min_vol_weights = min_vol_port[[x + '_weight' for x in tickers]].values
+            # Update weights
+            max_sharpe_weights = max_sharpe_port[[x + '_weight' for x in tickers]].values
+            min_vol_weights = min_vol_port[[x + '_weight' for x in tickers]].values
 
         # Update dates
         counter += 1
