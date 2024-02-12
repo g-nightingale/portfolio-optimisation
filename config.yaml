@@ -9,7 +9,7 @@ portfolio_optimisation:
     - EUF.NZ
   years_history: 10
   risk_free_rate: 0.0
-  num_portfolios: 2500
+  num_portfolios: 500
   base_value: 100
   include_dividends_in_returns: True
   start_date: '2013-01-01'
