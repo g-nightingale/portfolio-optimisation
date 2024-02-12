@@ -12,7 +12,7 @@ portfolio_optimisation:
   num_portfolios: 500
   base_value: 100
   include_dividends_in_returns: True
-  start_date: '2013-01-01'
+  start_date: '2018-01-01'
   use_prev_year: True
 
 app:
